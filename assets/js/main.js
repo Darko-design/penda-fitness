@@ -338,6 +338,16 @@
     });
     if (!isDesk()) chip.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'nearest', inline: 'center' });
   }));
+  /* telefon: pitanja se prevlače, tačke pokazuju gde si */
+  const chipRow = $('.chips');
+  const chipDots = $$('.chips__dots i');
+  if (chipRow && chipDots.length) chipRow.addEventListener('scroll', () => {
+    const x = chipRow.scrollLeft;
+    let best = 0, dist = Infinity;
+    chips.forEach((c, i) => { const d = Math.abs(c.offsetLeft - chipRow.offsetLeft - x - parseFloat(getComputedStyle(chipRow).paddingLeft)); if (d < dist) { dist = d; best = i; } });
+    if (x + chipRow.clientWidth >= chipRow.scrollWidth - 4) best = chips.length - 1;
+    chipDots.forEach((d, i) => d.classList.toggle('on', i === best));
+  }, { passive: true });
 
   /* ---------------- ponuda: dugme unapred označava ponudu za dvoje ---------------- */
   const duoBtn = $('[data-duo]');
