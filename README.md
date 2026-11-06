@@ -10,7 +10,7 @@ Sajt personalnog trenera Stefana Milovanovića. Čist HTML, CSS i JavaScript, be
 | `politika-privatnosti.html` | politika privatnosti (link iz forme i footera) |
 | `404.html` | stranica za pogrešan link |
 | `assets/css/style.css` | stil, boje i razmaci su promenljive na vrhu fajla |
-| `assets/js/main.js` | meni, traka transformacija, zid poruka, razgovor u FAQ, mapa, forma |
+| `assets/js/main.js` | meni, koraci procesa, traka transformacija, zid poruka, razgovor u FAQ, mapa, forma |
 | `assets/fonts/` | Manrope i Sofia Sans Extra Condensed, samo latinica sa srpskim slovima |
 | `assets/img/` | fotografije (webp), mapa, slika za deljenje na mrežama |
 | `robots.txt`, `sitemap.xml` | za pretraživače |
@@ -66,6 +66,16 @@ Ako slanje ne uspe, posetilac vidi poruku sa brojem telefona.
 
 ```html
 <button class="shot" type="button" style="aspect-ratio:1080/1920" aria-label="Uvećaj poruku klijenta"><img src="assets/img/iskustva/poruka-01.webp" alt="Poruka klijenta o napretku" loading="lazy"></button>
+```
+
+**Proces, prvi korak.** Fotografija testiranja je privremeno polje na dva mesta u sekciji `#proces`: u kartici prvog koraka (`div.proces__img`, za telefon) i u velikom kadru (prvi `div.proces__shot`, za desktop). Kad stigne slika, sačuvaj je kao `assets/img/proces-testiranje.webp` i zameni oba polja:
+
+```html
+<div class="proces__img"><img src="assets/img/proces-testiranje.webp" width="780" height="1040" alt="Stefan Milovanović vodi klijenta kroz FMS testiranje" loading="lazy" decoding="async"></div>
+```
+
+```html
+<img class="proces__shot" src="assets/img/proces-testiranje.webp" width="780" height="1040" alt="" loading="lazy" decoding="async">
 ```
 
 Slike sačuvaj kao webp, do 1200 px širine.

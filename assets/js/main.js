@@ -109,16 +109,59 @@
       + `<path d="${main}" stroke="#3A5BEE" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;
   }
 
-  /* ---------------- ciljevi: tačke ispod kartica ---------------- */
-  const cards = $('[data-cards]');
-  if (cards) {
-    const dots = $$('.dots span');
-    const goals = $$('.goal', cards);
-    cards.addEventListener('scroll', () => {
-      const x = cards.scrollLeft;
+  /* ---------------- proces: korak po korak ----------------
+     desktop: sekcija se zaustavlja, skrol otvara sledeći korak i nova fotografija izlazi preko prethodne
+     telefon: kartice koje se prevlače, sa tačkama ispod */
+  const proc = $('[data-proces]');
+  if (proc) {
+    const items = $$('.proces__item', proc);
+    const shots = $$('.proces__shot', proc);
+    const big = $('.proces__big', proc);
+    const list = $('.proces__list', proc);
+    const dots = $$('.proces__dots span', proc);
+    const n = items.length;
+    let cur = -1;
+    let ticking = false;
+    const run = () => proc.getBoundingClientRect().height - innerHeight;
+
+    const frame = () => {
+      ticking = false;
+      if (!isDesk()) {
+        if (cur !== -2) { items.forEach((li, i) => { li.classList.toggle('is-on', i === 0); li.classList.remove('is-past'); }); cur = -2; }
+        return;
+      }
+      const p = clamp(-proc.getBoundingClientRect().top / Math.max(1, run()), 0, 1) * (n - 1);
+      let idx = 0;
+      shots.forEach((s, k) => {
+        if (!k) return;
+        const t = clamp((p - (k - 1) - 0.15) / 0.7, 0, 1);
+        s.style.setProperty('--r', (1 - t).toFixed(3));
+        if (t > 0.5) idx = k;
+      });
+      items.forEach((li, i) => li.style.setProperty('--f', clamp((p - i) / 0.85, 0, 1).toFixed(3)));
+      if (idx === cur) return;
+      cur = idx;
+      items.forEach((li, i) => { li.classList.toggle('is-on', i === idx); li.classList.toggle('is-past', i < idx); });
+      big.textContent = String(idx + 1).padStart(2, '0');
+      big.classList.remove('is-swap'); void big.offsetWidth; big.classList.add('is-swap');
+    };
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } };
+    addEventListener('scroll', onScroll, { passive: true });
+    onResize.push(onScroll);
+    frame();
+
+    items.forEach((li, i) => li.addEventListener('click', () => {
+      if (!isDesk()) return;
+      const top = scrollY + proc.getBoundingClientRect().top;
+      const p = i === 0 ? 0 : i - 0.1;
+      scrollTo({ top: top + run() * (p / (n - 1)), behavior: reduce ? 'auto' : 'smooth' });
+    }));
+
+    list.addEventListener('scroll', () => {
+      const x = list.scrollLeft;
       let best = 0, dist = Infinity;
-      goals.forEach((g, i) => { const dd = Math.abs(g.offsetLeft - cards.offsetLeft - x - parseFloat(getComputedStyle(cards).paddingLeft)); if (dd < dist) { dist = dd; best = i; } });
-      if (cards.scrollLeft + cards.clientWidth >= cards.scrollWidth - 4) best = goals.length - 1;
+      items.forEach((li, i) => { const dd = Math.abs(li.offsetLeft - list.offsetLeft - x - parseFloat(getComputedStyle(list).paddingLeft)); if (dd < dist) { dist = dd; best = i; } });
+      if (x + list.clientWidth >= list.scrollWidth - 4) best = n - 1;
       dots.forEach((d, i) => d.classList.toggle('on', i === best));
     }, { passive: true });
   }
@@ -340,6 +383,7 @@
 
       const fd = new FormData(form);
       const pomoc = fd.getAll('pomoc');
+      const nacin = fd.getAll('nacin');
       const payload = {
         _subject: fd.get('_subject'),
         _template: 'table',
@@ -348,6 +392,7 @@
         'Ime i prezime': fd.get('ime').trim(),
         'Broj telefona': fd.get('telefon').trim(),
         Email: (fd.get('email') || '').trim() || 'nije upisan',
+        'Način treninga': nacin.length ? nacin.join(', ') : 'nije izabrano',
         'Potrebna pomoć': pomoc.length ? pomoc.join(', ') : 'nije izabrano',
         'Ponuda za dvoje': fd.get('ponuda_za_dvoje') ? 'Da, dovodi prijatelja, partnera ili člana porodice' : 'Ne',
         Poruka: (fd.get('poruka') || '').trim() || 'bez poruke',
