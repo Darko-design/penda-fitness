@@ -2,7 +2,8 @@
 (() => {
   'use strict';
 
-  const FORM_ENDPOINT = 'https://formsubmit.co/ajax/stefanpenda1998@gmail.com';
+  /* probna adresa za test forme; za pravu upotrebu vrati stefanpenda1998@gmail.com (i u action forme u index.html) */
+  const FORM_ENDPOINT = 'https://formsubmit.co/ajax/darkodakipetrovic9@gmail.com';
 
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -116,7 +117,6 @@
   if (proc) {
     const items = $$('.proces__item', proc);
     const shots = $$('.proces__shot', proc);
-    const big = $('.proces__big', proc);
     const list = $('.proces__list', proc);
     const dots = $$('.proces__dots span', proc);
     const n = items.length;
@@ -142,8 +142,6 @@
       if (idx === cur) return;
       cur = idx;
       items.forEach((li, i) => { li.classList.toggle('is-on', i === idx); li.classList.toggle('is-past', i < idx); });
-      big.textContent = String(idx + 1).padStart(2, '0');
-      big.classList.remove('is-swap'); void big.offsetWidth; big.classList.add('is-swap');
     };
     const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(frame); } };
     addEventListener('scroll', onScroll, { passive: true });
@@ -271,16 +269,39 @@
     addEventListener('load', sync);
     sync();
 
-    /* uvećanje screenshot-a */
+    /* uvećanje: screenshot poruke ili video utisak (sa zvukom) */
     const box = $('.lb__box', lb);
     const closeBtn = $('.lb__x', lb);
     let lastFocus = null;
+    const clearBox = () => {
+      $$('video', box).forEach((v) => { v.pause(); v.removeAttribute('src'); v.load(); });
+      $$('.shot, video', box).forEach((s) => s.remove());
+    };
     const openLb = (card) => {
-      $$('.shot', box).forEach((s) => s.remove());
-      const big = document.createElement('div');
-      big.className = 'shot is-in';
-      big.innerHTML = card.innerHTML;
-      box.appendChild(big);
+      clearBox();
+      const [w, h] = (card.style.aspectRatio || '9/16').split('/').map(Number);
+      const r = w / h;
+      const bw = Math.min(innerWidth - 48, (innerHeight - 96) * r, r >= 1 ? 760 : 420);
+      box.style.width = `${Math.round(bw)}px`;
+      box.style.aspectRatio = `${w} / ${h}`;
+      const img = $('img', card);
+      if (card.dataset.video) {
+        const v = document.createElement('video');
+        v.className = 'lb__video';
+        v.src = card.dataset.video;
+        v.poster = img.currentSrc || img.src;
+        v.controls = true;
+        v.playsInline = true;
+        box.appendChild(v);
+        v.play().catch(() => {});
+      } else {
+        const big = document.createElement('div');
+        big.className = 'shot is-in';
+        const copy = img.cloneNode();
+        copy.loading = 'eager';
+        big.appendChild(copy);
+        box.appendChild(big);
+      }
       lastFocus = card;
       lb.classList.add('is-open');
       closeBtn.focus();
@@ -288,6 +309,7 @@
     const closeLb = () => {
       if (!lb.classList.contains('is-open')) return;
       lb.classList.remove('is-open');
+      clearBox();
       if (lastFocus) lastFocus.focus({ preventScroll: true });
     };
     zone.addEventListener('click', (e) => { const s = e.target.closest('.shot'); if (s) openLb(s); });
@@ -373,6 +395,11 @@
       f.addEventListener('blur', () => { if (f.value || f.hasAttribute('aria-invalid')) setErr(f, check(f)); });
       f.addEventListener('input', () => { if (f.hasAttribute('aria-invalid')) setErr(f, check(f)); });
     });
+    /* poruka počinje u jednom redu i raste dok se kuca (gde browser to ne radi sam) */
+    const msg = form.elements.poruka;
+    if (msg && !(window.CSS && CSS.supports('field-sizing', 'content'))) {
+      msg.addEventListener('input', () => { msg.style.height = 'auto'; msg.style.height = `${Math.min(msg.scrollHeight + 2, 160)}px`; });
+    }
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -430,6 +457,7 @@
     }
     $('[data-reset]', done).addEventListener('click', () => {
       form.reset();
+      if (msg) msg.style.height = '';
       fields.forEach((f) => setErr(f, ''));
       done.hidden = true;
       form.hidden = false;

@@ -46,27 +46,29 @@ Stranica `404.html` koristi putanje od korena domena, zato izgleda kako treba te
 
 ## Forma za prijavu
 
-Prijave stižu na **stefanpenda1998@gmail.com** preko besplatnog servisa FormSubmit, bez naloga i bez lozinki.
+Prijave stižu preko besplatnog servisa FormSubmit, bez naloga i bez lozinki. Adresa na koju stižu je na dva mesta: `FORM_ENDPOINT` na vrhu `assets/js/main.js` i `action` forme `#forma` u `index.html`. Trenutno je tu probna adresa za test; za pravu upotrebu na oba mesta upiši **stefanpenda1998@gmail.com**.
 
 1. Kad sajt bude objavljen, pošalji jednu probnu prijavu.
-2. Na stefanpenda1998@gmail.com stiže email od FormSubmit-a. Klikni **Activate Form**. Do aktivacije prijave se ne prosleđuju.
+2. Na adresu iz forme stiže email od FormSubmit-a. Klikni **Activate Form**. Do aktivacije prijave se ne prosleđuju. Posle svake promene adrese aktivacija se radi ponovo.
 3. Preporuka: u tom emailu dobijaš i kod koji menja email adresu u adresi forme. Na vrhu `assets/js/main.js` zameni `FORM_ENDPOINT` sa `https://formsubmit.co/ajax/TVOJ_KOD`, a u `index.html` isto uradi u `action` forme `#forma`. Tako email adresa nije vidljiva u kodu.
 
 Ako slanje ne uspe, posetilac vidi poruku sa brojem telefona.
 
 ## Privremena polja koja treba zameniti
 
-**Transformacije.** Traka ima 12 parova PRE i POSLE. Drugih 6 parova je kopija prvih 6, zbog beskonačnog kruženja, i moraju ostati isti kao prvih 6. Za pravu fotografiju u `div.ph` dodaj sliku, oznaka ostaje iznad nje:
+**Transformacije.** Traka ima 12 pravih parova PRE i POSLE (`assets/img/transformacije/`, slike 420×560). Drugih 12 parova je kopija prvih 12, zbog beskonačnog kruženja, i moraju ostati isti kao prvih 12 (u kopiji je `aria-hidden="true"` i prazan alt). Novi par se dodaje i u prvi i u drugi set, na isto mesto:
 
 ```html
-<div class="ph"><img src="assets/img/transformacije/marko-pre.webp" alt="Marko pre početka treninga" loading="lazy"><span class="tag">Pre</span></div>
+<div class="pair"><div class="ph"><img src="assets/img/transformacije/t13-pre.webp" width="420" height="560" alt="Klijent pre početka treninga" loading="lazy" decoding="async" draggable="false"><span class="tag">Pre</span></div><div class="ph ph--after"><img src="assets/img/transformacije/t13-posle.webp" width="420" height="560" alt="Klijent posle treninga" loading="lazy" decoding="async" draggable="false"><span class="tag">Posle</span></div></div>
 ```
 
-**Iskustva.** Zid ima 12 polja sa nacrtanim porukama (`button.shot`). Za pravi screenshot zameni sadržaj dugmeta slikom i podesi odnos stranica:
+**Iskustva.** Zid ima 8 screenshot-a poruka (`assets/img/utisci/utisak-01.webp` do `08`) i 3 video utiska (`assets/video/utisak-09.mp4` do `11`, naslovne slike `assets/img/utisci/utisak-09.webp` do `11`). Screenshot ide u dugme `button.shot`, sa odnosom stranica slike i alt tekstom koji prepisuje poruku:
 
 ```html
-<button class="shot" type="button" style="aspect-ratio:1080/1920" aria-label="Uvećaj poruku klijenta"><img src="assets/img/iskustva/poruka-01.webp" alt="Poruka klijenta o napretku" loading="lazy"></button>
+<button class="shot" type="button" style="aspect-ratio:840/380"><img src="assets/img/utisci/utisak-12.webp" width="840" height="380" alt="Poruka klijenta: ..." loading="lazy" decoding="async"></button>
 ```
+
+Video ide kao `button.shot shot--video` sa `data-video` (putanja do mp4) i naslovnom slikom; klik otvara video sa zvukom u uvećanju. Skripta sama raspoređuje polja u kolone redom kojim stoje u HTML-u. Video sačuvaj kao mp4 (H.264 i AAC, sa `faststart`), screenshot kao webp do 840 px širine.
 
 **Proces, prvi korak.** Fotografija testiranja je privremeno polje na dva mesta u sekciji `#proces`: u kartici prvog koraka (`div.proces__img`, za telefon) i u velikom kadru (prvi `div.proces__shot`, za desktop). Kad stigne slika, sačuvaj je kao `assets/img/proces-testiranje.webp` i zameni oba polja:
 
