@@ -46,11 +46,14 @@ Stranica `404.html` koristi putanje od korena domena, zato izgleda kako treba te
 
 ## Forma za prijavu
 
-Prijave stižu preko besplatnog servisa FormSubmit, bez naloga i bez lozinki. Adresa na koju stižu je na dva mesta: `FORM_ENDPOINT` na vrhu `assets/js/main.js` i `action` forme `#forma` u `index.html`. Trenutno je tu probna adresa za test; za pravu upotrebu na oba mesta upiši **stefanpenda1998@gmail.com**.
+Prijave stižu na email preko besplatnog servisa **Web3Forms** (do 250 prijava mesečno), bez naloga i bez lozinki. Email na koji stižu određuje **pristupni ključ** (access key). Ključ nije tajna: po pravilu stoji u kodu sajta i šalje samo na email za koji je napravljen.
 
-1. Kad sajt bude objavljen, pošalji jednu probnu prijavu.
-2. Na adresu iz forme stiže email od FormSubmit-a. Klikni **Activate Form**. Do aktivacije prijave se ne prosleđuju. Posle svake promene adrese aktivacija se radi ponovo.
-3. Preporuka: u tom emailu dobijaš i kod koji menja email adresu u adresi forme. Na vrhu `assets/js/main.js` zameni `FORM_ENDPOINT` sa `https://formsubmit.co/ajax/TVOJ_KOD`, a u `index.html` isto uradi u `action` forme `#forma`. Tako email adresa nije vidljiva u kodu.
+Ključ je na dva mesta: `FORM_KEY` na vrhu `assets/js/main.js` i skriveno polje `access_key` u formi `#forma` u `index.html`. Trenutno je tu ključ probne adrese.
+
+Prebacivanje na drugi email (na primer stefanpenda1998@gmail.com):
+1. Na https://web3forms.com u polje „Create your Access Key“ upiši novi email i potvrdi.
+2. Ključ stiže na taj email. Zameni stari ključ novim na oba mesta.
+3. Objavi sajt i pošalji jednu probnu prijavu. Aktivacija nije potrebna.
 
 Ako slanje ne uspe, posetilac vidi poruku sa brojem telefona.
 

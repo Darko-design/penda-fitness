@@ -2,8 +2,11 @@
 (() => {
   'use strict';
 
-  /* probna adresa za test forme; za pravu upotrebu vrati stefanpenda1998@gmail.com (i u action forme u index.html) */
-  const FORM_ENDPOINT = 'https://formsubmit.co/ajax/darkodakipetrovic9@gmail.com';
+  /* forma se šalje preko Web3Forms; ključ određuje na koji email stižu prijave
+     (sada probna adresa darkodakipetrovic9@gmail.com; za Stefanov email napravi novi ključ na web3forms.com
+     i zameni ga ovde i u skrivenom polju access_key u index.html) */
+  const FORM_ENDPOINT = 'https://api.web3forms.com/submit';
+  const FORM_KEY = '552b0861-9edd-4194-8526-6a6a2237345d';
 
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -412,10 +415,10 @@
       const pomoc = fd.getAll('pomoc');
       const nacin = fd.getAll('nacin');
       const payload = {
-        _subject: fd.get('_subject'),
-        _template: 'table',
-        _captcha: 'false',
-        _honey: fd.get('_honey') || '',
+        access_key: FORM_KEY,
+        subject: fd.get('subject'),
+        from_name: 'Penda.fitness sajt',
+        botcheck: fd.get('botcheck') || '',
         'Ime i prezime': fd.get('ime').trim(),
         'Broj telefona': fd.get('telefon').trim(),
         Email: (fd.get('email') || '').trim() || 'nije upisan',
@@ -424,9 +427,10 @@
         'Ponuda za dvoje': fd.get('ponuda_za_dvoje') ? 'Da, dovodi prijatelja, partnera ili člana porodice' : 'Ne',
         Poruka: (fd.get('poruka') || '').trim() || 'bez poruke',
       };
-      if (payload.Email !== 'nije upisan') payload._replyto = payload.Email;
+      if (payload.Email !== 'nije upisan') payload.replyto = payload.Email;
 
-      if (payload._honey) { showDone(); return; }
+      if (payload.botcheck) { showDone(); return; }
+      delete payload.botcheck;
       btn.disabled = true;
       btnT.textContent = 'Šaljem…';
       try {
