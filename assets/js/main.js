@@ -349,6 +349,22 @@
     chipDots.forEach((d, i) => d.classList.toggle('on', i === best));
   }, { passive: true });
 
+  /* ---------------- pojavljivanje uvoda sekcija: jedan stil za ceo sajt, jednom ---------------- */
+  if (!reduce && 'IntersectionObserver' in window) {
+    const seen = new IntersectionObserver((entries) => entries.forEach((en) => {
+      if (!en.isIntersecting) return;
+      en.target.classList.add('is-in');
+      seen.unobserve(en.target);
+    }), { rootMargin: '0px 0px -8% 0px' });
+    $$('main section .head, main section .lead, .resenje__top > p, .prijava__intro').forEach((el) => {
+      if (!el.classList.contains('head')) el.style.transitionDelay = '.08s';
+      el.classList.add('rv');
+      seen.observe(el);
+    });
+    const hint = $('.chips__hint');
+    if (hint) seen.observe(hint);
+  }
+
   /* ---------------- ponuda: dugme unapred označava ponudu za dvoje ---------------- */
   const duoBtn = $('[data-duo]');
   const duoBox = $('input[name="ponuda_za_dvoje"]');
