@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://penda.fitness/sitemap.xml
+Sitemap: https://darko-design.github.io/penda-fitness/sitemap.xml

@@ -73,26 +73,19 @@ Ako slanje ne uspe, posetilac vidi poruku sa brojem telefona.
 
 Video ide kao `button.shot shot--video` sa `data-video` (putanja do mp4) i naslovnom slikom; klik otvara video sa zvukom u uvećanju. Skripta sama raspoređuje polja u kolone redom kojim stoje u HTML-u. Video sačuvaj kao mp4 (H.264 i AAC, sa `faststart`), screenshot kao webp do 840 px širine.
 
-**Proces, prvi korak.** Fotografija testiranja je privremeno polje na dva mesta u sekciji `#proces`: u kartici prvog koraka (`div.proces__img`, za telefon) i u velikom kadru (prvi `div.proces__shot`, za desktop). Kad stigne slika, sačuvaj je kao `assets/img/proces-testiranje.webp` i zameni oba polja:
-
-```html
-<div class="proces__img"><img src="assets/img/proces-testiranje.webp" width="780" height="1040" alt="Stefan Milovanović vodi klijenta kroz FMS testiranje" loading="lazy" decoding="async"></div>
-```
-
-```html
-<img class="proces__shot" src="assets/img/proces-testiranje.webp" width="780" height="1040" alt="" loading="lazy" decoding="async">
-```
-
 Slike sačuvaj kao webp, do 1200 px širine.
 
 ## Mapa
 
 U sekciji prijave je mapa u bojama sajta sa tačnom adresom. Klik na adresu otvara Google mape i lokaciju CFL GYM, Mijačka 5. Crtež mape je ilustracija i ne prikazuje prave ulice. Prava Google mapa u istom tamnom stilu traži Google Maps API ključ, pa je možemo dodati kada ključ postoji.
 
-## Pretraga
+## Pretraga (SEO)
 
-Već urađeno: naslov i opis stranice, canonical, slika za deljenje na mrežama, strukturirani podaci (LocalBusiness, Person, FAQPage), sitemap, robots, semantički naslovi i alt tekstovi.
+Adresa sajta je trenutno `https://darko-design.github.io/penda-fitness/`. Kad sajt pređe na svoj domen, tu adresu zameni novom u: `index.html` (canonical, og:url, og:image, twitter:image i JSON-LD), `politika-privatnosti.html` (canonical, og:url, og:image), `robots.txt` i `sitemap.xml`.
+
+Već urađeno: naslov i opis stranice, canonical, Open Graph i Twitter oznake, strukturirani podaci (SportsActivityLocation, Person, FAQPage, bez ocena), jedan H1 sa ključnom rečju, sve slike kao img sa alt tekstom i dimenzijama, unapred učitana glavna slika, robots.txt i sitemap.xml.
 
 Posle objavljivanja:
-1. U **Google Search Console** dodaj domen i pošalji `sitemap.xml`.
-2. Napravi ili dopuni **Google Business** profil sa istim imenom, adresom (CFL GYM, Mijačka 5, Beograd) i telefonom kao na sajtu.
+1. U **Google Search Console** dodaj sajt i pošalji `sitemap.xml`.
+2. Proveri stranicu u **Rich Results Test** (search.google.com/test/rich-results).
+3. Napravi ili dopuni **Google Business** profil sa istim imenom, adresom (Mijačka 5, Beograd) i telefonom kao na sajtu.
