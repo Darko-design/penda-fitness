@@ -48,7 +48,7 @@ Stranica `404.html` koristi putanje od korena domena, zato izgleda kako treba te
 
 Prijave stižu na email preko besplatnog servisa **Web3Forms** (do 250 prijava mesečno), bez naloga i bez lozinki. Email na koji stižu određuje **pristupni ključ** (access key). Ključ nije tajna: po pravilu stoji u kodu sajta i šalje samo na email za koji je napravljen.
 
-Ključ je na dva mesta: `FORM_KEY` na vrhu `assets/js/main.js` i skriveno polje `access_key` u formi `#forma` u `index.html`. Trenutno je tu ključ probne adrese.
+Ključ je na dva mesta: `FORM_KEY` na vrhu `assets/js/main.js` i skriveno polje `access_key` u formi `#forma` u `index.html`. Trenutno je tu ključ za **stefanpenda1998@gmail.com**.
 
 Prebacivanje na drugi email (na primer stefanpenda1998@gmail.com):
 1. Na https://web3forms.com u polje „Create your Access Key“ upiši novi email i potvrdi.

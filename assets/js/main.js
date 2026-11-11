@@ -3,10 +3,10 @@
   'use strict';
 
   /* forma se šalje preko Web3Forms; ključ određuje na koji email stižu prijave
-     (sada probna adresa darkodakipetrovic9@gmail.com; za Stefanov email napravi novi ključ na web3forms.com
+     (ključ je za stefanpenda1998@gmail.com; za drugi email napravi novi ključ na web3forms.com
      i zameni ga ovde i u skrivenom polju access_key u index.html) */
   const FORM_ENDPOINT = 'https://api.web3forms.com/submit';
-  const FORM_KEY = '552b0861-9edd-4194-8526-6a6a2237345d';
+  const FORM_KEY = '80515ad9-f5cb-414f-ad50-5569be4d9a0a';
 
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
