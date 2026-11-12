@@ -29,7 +29,7 @@ Radna fascikla ima još `design/` (referenca dizajna) i `CLAUDE.md` (uputstvo za
 1. Na GitHub-u napravi novi repozitorijum, na primer `penda-fitness`.
 2. U koren repozitorijuma ubaci **sadržaj** fascikle `penda-fitness-github` (ne samu fasciklu). Najlakše preko sajta: **Add file › Upload files**, prevuci sve fajlove i fascikle, pa **Commit changes**. Fajl `.nojekyll` je prazan i počinje tačkom, proveri da je i on prebačen.
 3. **Settings › Pages › Build and deployment**: Source **Deploy from a branch**, Branch **main**, folder **/ (root)**, pa **Save**.
-4. Za minut ili dva sajt je na `https://darko-design.github.io/penda-fitness/`.
+4. Za minut ili dva sajt je na `https://www.pendafitness.com/`.
 
 ## Domen penda.fitness
 
@@ -81,7 +81,7 @@ U sekciji prijave je mapa u bojama sajta sa tačnom adresom. Klik na adresu otva
 
 ## Pretraga (SEO)
 
-Adresa sajta je trenutno `https://darko-design.github.io/penda-fitness/`. Kad sajt pređe na svoj domen, tu adresu zameni novom u: `index.html` (canonical, og:url, og:image, twitter:image i JSON-LD), `politika-privatnosti.html` (canonical, og:url, og:image), `robots.txt` i `sitemap.xml`.
+Adresa sajta je trenutno `https://www.pendafitness.com/`. Kad sajt pređe na svoj domen, tu adresu zameni novom u: `index.html` (canonical, og:url, og:image, twitter:image i JSON-LD), `politika-privatnosti.html` (canonical, og:url, og:image), `robots.txt` i `sitemap.xml`.
 
 Već urađeno: naslov i opis stranice, canonical, Open Graph i Twitter oznake, strukturirani podaci (SportsActivityLocation, Person, FAQPage, bez ocena), jedan H1 sa ključnom rečju, sve slike kao img sa alt tekstom i dimenzijama, unapred učitana glavna slika, robots.txt i sitemap.xml.
 
